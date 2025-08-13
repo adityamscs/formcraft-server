@@ -63,14 +63,21 @@ export interface IFormResponse {
   userAgent?: string;
   ipAddress?: string;
   userId?: string;        // Firebase UID
-  phoneNumber?: string;   // User's phone number
+  email?: string;   // User's phone number
 }
+
+export type UserRole = "superuser" | "admin" | "creator" | "user";
 
 export interface IUser {
   _id?: string;
+  uid: string;
   email: string;
-  name: string;
+  name?: string;
+  phone?: string;
+  department?: string;
+  className?: string;
   forms: string[];
-  createdAt: Date;
-  updatedAt: Date;
+  role: UserRole;
+  createdAt?: Date;
+  updatedAt?: Date;
 }

@@ -7,6 +7,7 @@ import multer from 'multer';
 
 import formRoutes from './routes/formRoutes';
 import responseRoutes from './routes/responseRoutes';
+import userRoutes from './routes/user';
 
 dotenv.config();
 
@@ -64,6 +65,7 @@ app.post('/upload', upload.single('image'), (req, res) => {
 // Routes
 app.use('/api/forms', formRoutes);
 app.use('/api/responses', responseRoutes);
+app.use("/api/user", userRoutes);
 
 // Health check
 app.get('/health', (req, res) => {

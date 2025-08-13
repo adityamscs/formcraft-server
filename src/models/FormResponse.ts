@@ -10,7 +10,9 @@ const formResponseSchema = new Schema<IFormResponse>({
   formId: { type: String, required: true, ref: 'Form' },
   responses: [responseSchema],
   userAgent: { type: String },
-  ipAddress: { type: String }
+  ipAddress: { type: String },
+  userId: { type: String }, // Optional field for user ID
+  email: { type: String }, // Optional field for email
 }, {
   timestamps: true
 });

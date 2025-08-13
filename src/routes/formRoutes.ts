@@ -9,17 +9,19 @@ import {
   publishForm
 } from '../controllers/formController';
 
+import { requireRole } from '../middleware/auth';
+
 const router = express.Router();
 
 // Form CRUD routes
-router.post('/', createForm);
+router.post('/', requireRole(["superuser", "admin", "creator"]), createForm);
 router.get('/', getForms);
-router.get('/:id', getFormById);
-router.put('/:id', updateForm);
-router.delete('/:id', deleteForm);
-router.patch('/:id/publish', publishForm);
+router.get('/:id', requireRole(["superuser", "admin", "creator"]), getFormById);
+router.put('/:id', requireRole(["superuser", "admin", "creator"]), updateForm);
+router.delete('/:id', requireRole(["superuser", "admin", "creator"]), deleteForm);
+router.patch('/:id/publish', requireRole(["superuser", "admin", "creator"]), publishForm);
 
 // Public form access
 router.get('/share/:shareLink', getFormByShareLink);
 
-export default router; 
+export default router;
