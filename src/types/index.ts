@@ -62,6 +62,8 @@ export interface IFormResponse {
   submittedAt: Date;
   userAgent?: string;
   ipAddress?: string;
+  userId?: string;        // Firebase UID
+  phoneNumber?: string;   // User's phone number
 }
 
 export interface IUser {
@@ -71,4 +73,4 @@ export interface IUser {
   forms: string[];
   createdAt: Date;
   updatedAt: Date;
-} 
+}
