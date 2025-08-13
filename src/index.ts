@@ -44,15 +44,16 @@ const upload = multer({
 
 // Create uploads directory if it doesn't exist
 import fs from 'fs';
+import { verifyFirebaseToken } from './middleware/firebaseAuth';
 if (!fs.existsSync('uploads')) {
   fs.mkdirSync('uploads');
 }
 
 // Serve uploaded files
-app.use('/uploads', express.static('uploads'));
+app.use('/uploads', verifyFirebaseToken, express.static('uploads'));
 
 // File upload route
-app.post('/upload', upload.single('image'), (req, res) => {
+app.post('/upload', verifyFirebaseToken, upload.single('image'), (req, res) => {
   if (!req.file) {
     return res.status(400).json({ message: 'No file uploaded' });
   }
@@ -63,9 +64,9 @@ app.post('/upload', upload.single('image'), (req, res) => {
 });
 
 // Routes
-app.use('/api/forms', formRoutes);
-app.use('/api/responses', responseRoutes);
-app.use("/api/user", userRoutes);
+app.use('/api/forms', verifyFirebaseToken, formRoutes);
+app.use('/api/responses', verifyFirebaseToken, responseRoutes);
+app.use("/api/user", verifyFirebaseToken, userRoutes);
 
 // Health check
 app.get('/health', (req, res) => {

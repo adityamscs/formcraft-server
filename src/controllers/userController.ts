@@ -18,10 +18,19 @@ export const updateUser = async (req: Request, res: Response) => {
 };
 
 export const createUser = async (req: Request, res: Response) => {
-  const { uid, email, role } = req.body;
-  const user = new User({ uid, email, role: role || "user" });
-  await user.save();
-  res.status(201).json(user);
+  const { email, name } = req.body;
+  const uid = req.user.uid; // From verified token
+  let user = await User.findOne({ uid });
+  if (user) {
+    user.email = email || user.email;
+    user.name = name || user.name;
+    await user.save();
+    return res.status(200).json(user);
+  } else {
+    user = new User({ uid, email, name, role: "user" });
+    await user.save();
+    return res.status(201).json(user);
+  }
 };
 
 // Only superuser/admin can update roles
