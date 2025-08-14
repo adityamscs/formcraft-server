@@ -19,6 +19,9 @@ export const updateUser = async (req: Request, res: Response) => {
 
 export const createUser = async (req: Request, res: Response) => {
   const { email, name } = req.body;
+    if (!req.user || !req.user.uid) {
+        return res.status(401).json({ error: "Unauthorized" });
+    }
   const uid = req.user.uid; // From verified token
   let user = await User.findOne({ uid });
   if (user) {
